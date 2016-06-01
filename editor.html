@@ -1,0 +1,69 @@
+<!DocType html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael.min.js"></script>
+    <script src="uml.js"></script>
+</head>
+<body>
+<textarea id="markdown" title="" cols="80" rows="20" placeholder="input markdown text">
+# Markdownでシーケンス図 Demo
+
+## 決済情報登録
+
+abc  |abc
+-----|----
+abc  |abc
+1    |f
+
+``` sequence
+> ユーザ as u
+> アプリケーションサーバ as s
+> アプリケーション as a
+> データベース as d
+[]u            : 【1-4】有料登録支払情報入力
+  u->s         : 決済情報登録画面取得(Cookie)
+     s->a      : 決済情報登録画面取得(Cookie)
+    [s,    d]  : 共通ログインチェック
+        a->d   : 登録可能プラン検索
+          [d]  : 登録可能プラン検索
+        a<-d   :
+{ opt 該当プランなし
+     s<-a      : エラー画面出力
+}
+     s<-a      : プラン一覧と入力フォームを出力
+      []a      : キャンペーン期間中プランはキャンペーン用の表示をする
+  u<-s         :
+
+[]u            : 【1-4】有料登録支払情報入力
+  u->s         : 決済情報登録(Cookie,プランID,個人情報,カード情報)
+     s->a      : 決済情報登録(Cookie,プランID,個人情報,カード情報)
+    [s,    d]  : 共通ログインチェック
+        a->d   : 登録可能プラン検索
+          [d]  : 登録可能プラン検索
+       [a<-d]  :
+{opt 入力フォーマットエラー OR 入力プランが登録可能プランリストにない
+    [s<-a]     : エラー画面出力
+}
+        a->+d  : ユーザ情報更新(ユーザID,個人情報)
+        a-<=d  :
+```
+</textarea>
+<div id="preview">Diagram will be placed here</div>
+<div id="console" style="position:absolute;bottom:0;right:0;width:50%;height:200px;opacity:0.6;background:black;color:white"></div>
+
+<script>
+    //
+    // --+>
+    // --|>
+    $('#markdown').on('input change', function() {
+        $('#preview').html(markdown(this.value));
+    }).trigger('change');
+</script>
+</body>
+</html>
