@@ -1,0 +1,30 @@
+{
+  "name": "markdown-uml-js",
+  "version": "1.0.0",
+  "description": "markdown + uml",
+  "main": "index.html",
+  "scripts": {
+    "start": "npm run watch",
+    "watch": "watch 'npm run build:css' lib",
+    "css:sass": "node-sass lib/*.scss lib/style.css",
+    "css:prefix": "autoprefixer-cli -b 'last 2 versions' lib/style.css",
+    "build:css": "npm run css:sass & npm run css:prefix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HikaruYasuda/markdown-uml-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HikaruYasuda/markdown-uml-js/issues"
+  },
+  "homepage": "https://github.com/HikaruYasuda/markdown-uml-js#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer-cli": "^1.0.0",
+    "node-sass": "^3.7.0",
+    "watch": "^0.18.0"
+  }
+}

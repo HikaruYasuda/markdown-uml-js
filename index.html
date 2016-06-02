@@ -1,20 +1,26 @@
 <!DocType html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael.min.js"></script>
-    <script src="uml.js"></script>
+  <meta charset="utf-8">
+  <title>Markdown Editor</title>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  <link rel="stylesheet" href="lib/github-markdown.css">
+  <link rel="stylesheet" href="lib/style.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael.min.js"></script>
+  <script src="lib/uml.js"></script>
 </head>
 <body>
 <textarea id="markdown" title="" cols="80" rows="20" placeholder="input markdown text">
 # Markdownでシーケンス図 Demo
 
 ## 決済情報登録
+
+- [ ] Todo list
+    - [x] checked
+    - [ ] empty
 
 abc  |abc
 -----|----
@@ -23,9 +29,11 @@ abc  |abc
 
 ``` sequence
 > ユーザ as u
-> アプリケーションサーバ as s
+> アプリケーション
+サーバ as s
 > アプリケーション as a
 > データベース as d
+
 []u            : 【1-4】有料登録支払情報入力
   u->s         : 決済情報登録画面取得(Cookie)
      s->a      : 決済情報登録画面取得(Cookie)
@@ -54,16 +62,12 @@ abc  |abc
         a-<=d  :
 ```
 </textarea>
-<div id="preview">Diagram will be placed here</div>
-<div id="console" style="position:absolute;bottom:0;right:0;width:50%;height:200px;opacity:0.6;background:black;color:white"></div>
-
+<div id="preview" class="markdown-body">Diagram will be placed here</div>
+<code id="console"></code>
 <script>
-    //
-    // --+>
-    // --|>
-    $('#markdown').on('input change', function() {
-        $('#preview').html(markdown(this.value));
-    }).trigger('change');
+  $('#markdown').on('input change', function() {
+      $('#preview').html(markdown(this.value));
+  }).trigger('change');
 </script>
 </body>
 </html>
