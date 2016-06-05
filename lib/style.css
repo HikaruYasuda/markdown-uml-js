@@ -1,0 +1,160 @@
+* {
+  font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  font-size: 12px;
+  box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: relative; }
+
+#menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  #menu li {
+    display: inline-block;
+    padding: 6px; }
+
+#workspace {
+  position: absolute;
+  top: 30px;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+
+#markdown {
+  float: left;
+  overflow: auto;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 10px;
+  border: none;
+  resize: none;
+  background-color: #EEE;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+
+#preview {
+  float: right;
+  overflow: auto;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 10px; }
+
+#console {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 150px;
+  opacity: 0.6;
+  background: black;
+  color: white;
+  font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: pre;
+  overflow-y: auto; }
+
+.sequence-diagram {
+  border: 1px solid #ddd;
+  margin-bottom: 16px; }
+  .sequence-diagram .diagram-title {
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 3px 6px;
+    background: #eee;
+    margin-left: -1px;
+    margin-top: -1px; }
+    .sequence-diagram .diagram-title:before {
+      content: 'sd '; }
+  .sequence-diagram .diagram-body {
+    overflow: auto; }
+    .sequence-diagram .diagram-body .table {
+      margin: 6px 0;
+      width: auto;
+      border-collapse: separate;
+      border-spacing: 0; }
+      .sequence-diagram .diagram-body .table tr, .sequence-diagram .diagram-body .table th, .sequence-diagram .diagram-body .table td {
+        border: 0 none;
+        background: transparent; }
+      .sequence-diagram .diagram-body .table th {
+        padding: 0 15px;
+        color: transparent;
+        line-height: 0; }
+      .sequence-diagram .diagram-body .table .pipe {
+        border-right: 1px solid #666; }
+      .sequence-diagram .diagram-body .table td {
+        width: 60px;
+        padding: 0;
+        text-align: center; }
+      .sequence-diagram .diagram-body .table .actor {
+        position: relative; }
+        .sequence-diagram .diagram-body .table .actor div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          line-height: 2.2;
+          text-align: center; }
+          .sequence-diagram .diagram-body .table .actor div span {
+            display: inline-block;
+            color: #333;
+            padding: 0 13px;
+            border: 1px solid #999;
+            white-space: nowrap; }
+      .sequence-diagram .diagram-body .table .note {
+        border: 1px solid #999;
+        line-height: 1.4;
+        margin: 0 3px;
+        padding: 3px; }
+      .sequence-diagram .diagram-body .table .message {
+        border-bottom: 1px solid #666;
+        padding-bottom: 3px;
+        line-height: 1.4;
+        position: relative; }
+        .sequence-diagram .diagram-body .table .message.reply {
+          border-bottom-style: dashed; }
+        .sequence-diagram .diagram-body .table .message.right:after {
+          position: absolute;
+          content: '\25B6';
+          bottom: -8px;
+          right: -1px;
+          color: #666; }
+          .sequence-diagram .diagram-body .table .message.right:after.async {
+            content: '>';
+            bottom: -7px;
+            right: 0; }
+        .sequence-diagram .diagram-body .table .message.left:after {
+          position: absolute;
+          content: '\25C0';
+          bottom: -8px;
+          left: -1px;
+          color: #666; }
+          .sequence-diagram .diagram-body .table .message.left:after.async {
+            content: '<';
+            bottom: -7px;
+            left: 0; }
+      .sequence-diagram .diagram-body .table .actors td {
+        width: 100%;
+        height: 28px; }
+      .sequence-diagram .diagram-body .table .padding td {
+        border-right: 1px solid #666;
+        height: 10px; }
+        .sequence-diagram .diagram-body .table .padding td:last-child {
+          border-right: 0 none; }
+
+.lang-sequence .actors {
+  display: table-row; }
+  .lang-sequence .actors .actor {
+    display: table-cell;
+    border: 1px solid #ccc;
+    padding: 3px 6px; }

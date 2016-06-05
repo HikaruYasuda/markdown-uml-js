@@ -7,67 +7,34 @@
   <link rel="stylesheet" href="lib/github-markdown.css">
   <link rel="stylesheet" href="lib/style.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>-->
+  <script src="lib/marked.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael.min.js"></script>
-  <script src="lib/uml.js"></script>
+  <script src="lib/marked.sequence.js"></script>
 </head>
 <body>
-<textarea id="markdown" title="" cols="80" rows="20" placeholder="input markdown text">
-# Markdownでシーケンス図 Demo
-
-## 決済情報登録
-
-- [ ] Todo list
-    - [x] checked
-    - [ ] empty
-
-abc  |abc
------|----
-abc  |abc
-1    |f
-
-``` sequence
-> ユーザ as u
-> アプリケーション
-サーバ as s
-> アプリケーション as a
-> データベース as d
-
-[]u            : 【1-4】有料登録支払情報入力
-  u->s         : 決済情報登録画面取得(Cookie)
-     s->a      : 決済情報登録画面取得(Cookie)
-    [s,    d]  : 共通ログインチェック
-        a->d   : 登録可能プラン検索
-          [d]  : 登録可能プラン検索
-        a<-d   :
-{ opt 該当プランなし
-     s<-a      : エラー画面出力
-}
-     s<-a      : プラン一覧と入力フォームを出力
-      []a      : キャンペーン期間中プランはキャンペーン用の表示をする
-  u<-s         :
-
-[]u            : 【1-4】有料登録支払情報入力
-  u->s         : 決済情報登録(Cookie,プランID,個人情報,カード情報)
-     s->a      : 決済情報登録(Cookie,プランID,個人情報,カード情報)
-    [s,    d]  : 共通ログインチェック
-        a->d   : 登録可能プラン検索
-          [d]  : 登録可能プラン検索
-       [a<-d]  :
-{opt 入力フォーマットエラー OR 入力プランが登録可能プランリストにない
-    [s<-a]     : エラー画面出力
-}
-        a->+d  : ユーザ情報更新(ユーザID,個人情報)
-        a-<=d  :
-```
-</textarea>
-<div id="preview" class="markdown-body">Diagram will be placed here</div>
-<code id="console"></code>
+<ul id="menu">
+  <li>Save (&#x2318;S)</li>
+</ul>
+<section id="workspace">
+  <textarea id="markdown" title="" cols="80" rows="20" placeholder="input markdown text"></textarea>
+  <div id="preview" class="markdown-body">Diagram will be placed here</div>
+</section>
 <script>
-  $('#markdown').on('input change', function() {
+  $('#markdown')
+    .val(localStorage.getItem('md')||'')
+    .on('input change', function() {
       $('#preview').html(markdown(this.value));
-  }).trigger('change');
+    }).trigger('change');
+
+  $(window).keydown(function(e){
+    if ((e.ctrlKey ^ e.metaKey) && e.keyCode === 83) {
+      localStorage.setItem('md', $('#markdown').val());
+      console.log('saved');
+      return false;
+    }
+  });
 </script>
 </body>
 </html>
