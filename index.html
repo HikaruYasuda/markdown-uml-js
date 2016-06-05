@@ -4,37 +4,24 @@
   <meta charset="utf-8">
   <title>Markdown Editor</title>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
   <link rel="stylesheet" href="lib/github-markdown.css">
   <link rel="stylesheet" href="lib/style.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
-  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>-->
-  <script src="lib/marked.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
   <script src="lib/marked.sequence.js"></script>
+  <script src="lib/menu.js"></script>
 </head>
 <body>
 <ul id="menu">
-  <li>Save (&#x2318;S)</li>
 </ul>
 <section id="workspace">
   <textarea id="markdown" title="" cols="80" rows="20" placeholder="input markdown text"></textarea>
   <div id="preview" class="markdown-body">Diagram will be placed here</div>
 </section>
-<script>
-  $('#markdown')
-    .val(localStorage.getItem('md')||'')
-    .on('input change', function() {
-      $('#preview').html(markdown(this.value));
-    }).trigger('change');
-
-  $(window).keydown(function(e){
-    if ((e.ctrlKey ^ e.metaKey) && e.keyCode === 83) {
-      localStorage.setItem('md', $('#markdown').val());
-      console.log('saved');
-      return false;
-    }
-  });
-</script>
+<script src="lib/script.js"></script>
 </body>
 </html>

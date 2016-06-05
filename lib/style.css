@@ -12,6 +12,7 @@ html, body {
 
 #menu {
   position: absolute;
+  background: #F7F8F8;
   top: 0;
   left: 0;
   right: 0;
@@ -19,50 +20,62 @@ html, body {
   padding: 0;
   list-style: none; }
   #menu li {
-    display: inline-block;
-    padding: 6px; }
+    display: inline-block; }
+    #menu li a {
+      padding: 3px 6px;
+      display: block;
+      text-decoration: none;
+      color: #333;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none; }
+      #menu li a:hover {
+        background: #4D8EFF;
+        color: #fff; }
+        #menu li a:hover .shortcut {
+          color: #fff; }
+      #menu li a .shortcut {
+        margin-left: 6px;
+        color: #999;
+        font-family: 'Lucida Grande', serif; }
 
 #workspace {
   position: absolute;
-  top: 30px;
+  top: 24px;
   bottom: 0;
   left: 0;
-  right: 0; }
+  right: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: stretch;
+      align-items: stretch; }
+  #workspace.full {
+    top: 0; }
+  #workspace.vertical {
+    -ms-flex-direction: column;
+        flex-direction: column; }
 
 #markdown {
-  float: left;
+  -ms-flex: 1;
+      flex: 1;
   overflow: auto;
-  width: 50%;
-  height: 100%;
   margin: 0;
   padding: 10px;
   border: none;
   resize: none;
+  outline: none;
   background-color: #EEE;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
 
 #preview {
-  float: right;
+  -ms-flex: 1;
+      flex: 1;
   overflow: auto;
-  width: 50%;
-  height: 100%;
   margin: 0;
   padding: 10px; }
-
-#console {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 30%;
-  height: 150px;
-  opacity: 0.6;
-  background: black;
-  color: white;
-  font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
-  font-size: 14px;
-  line-height: 1.2;
-  white-space: pre;
-  overflow-y: auto; }
 
 .sequence-diagram {
   border: 1px solid #ddd;
@@ -151,10 +164,3 @@ html, body {
         height: 10px; }
         .sequence-diagram .diagram-body .table .padding td:last-child {
           border-right: 0 none; }
-
-.lang-sequence .actors {
-  display: table-row; }
-  .lang-sequence .actors .actor {
-    display: table-cell;
-    border: 1px solid #ccc;
-    padding: 3px 6px; }
