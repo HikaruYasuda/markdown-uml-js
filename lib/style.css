@@ -1,6 +1,5 @@
 * {
   font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-  font-size: 12px;
   box-sizing: border-box; }
 
 html, body {
@@ -14,7 +13,8 @@ html, body {
   -ms-flex-direction: column;
       flex-direction: column;
   -ms-flex-align: stretch;
-      align-items: stretch; }
+      align-items: stretch;
+  font-size: 12px; }
 
 #menu {
   background: #F7F8F8;
@@ -66,14 +66,16 @@ html, body {
   resize: none;
   outline: none;
   background-color: #EEE;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px; }
 
 #preview {
   -ms-flex: 1;
       flex: 1;
   overflow: auto;
   margin: 0;
-  padding: 10px; }
+  padding: 10px;
+  font-size: 12px; }
 
 .sequence-diagram {
   border: 1px solid #ddd;
@@ -105,7 +107,8 @@ html, body {
       border-width: 0 0 8px 8px;
       border-color: transparent transparent #fff transparent; }
   .sequence-diagram .diagram-body {
-    overflow: auto; }
+    overflow: auto;
+    padding: 0 6px; }
     .sequence-diagram .diagram-body table {
       margin: 6px 0;
       width: auto;
@@ -124,86 +127,105 @@ html, body {
         white-space: nowrap; }
       .sequence-diagram .diagram-body table td {
         width: 80px;
-        line-height: 1.4; }
+        line-height: 1.4;
+        position: relative; }
       .sequence-diagram .diagram-body table td.pipe, .sequence-diagram .diagram-body table .padding td {
         border-left: 1px solid #666; }
         .sequence-diagram .diagram-body table td.pipe:first-child, .sequence-diagram .diagram-body table .padding td:first-child {
           border-left: 0 none; }
       .sequence-diagram .diagram-body table .padding td {
         height: 10px; }
-      .sequence-diagram .diagram-body table .note {
-        border: 1px solid #999;
-        margin: 0 3px;
-        padding: 3px; }
-      .sequence-diagram .diagram-body table .fragment {
-        margin: 0 3px;
-        border: 1px solid #FF7D7D;
-        border-bottom: 0 none;
-        text-align: left; }
-        .sequence-diagram .diagram-body table .fragment div {
-          position: relative;
-          display: inline-block;
-          border: 1px solid #FF7D7D;
-          padding: 3px 10px 3px 6px;
-          margin-left: -1px;
-          margin-top: -1px;
-          color: #ff4d4d; }
-          .sequence-diagram .diagram-body table .fragment div span:before {
-            content: 'opt '; }
-          .sequence-diagram .diagram-body table .fragment div:before {
-            content: '';
-            position: absolute;
-            right: -1px;
-            bottom: -1px;
-            border-style: solid;
-            border-width: 0 0 9px 9px;
-            border-color: transparent transparent #FF7D7D transparent; }
-          .sequence-diagram .diagram-body table .fragment div:after {
-            content: '';
-            position: absolute;
-            right: -1px;
-            bottom: -1px;
-            border-style: solid;
-            border-width: 0 0 8px 8px;
-            border-color: transparent transparent #fff transparent; }
-      .sequence-diagram .diagram-body table .fragment-guard {
-        margin: 0 3px;
-        border: 0 solid #FF7D7D;
-        border-right-width: 1px;
-        border-left-width: 1px;
-        text-align: left;
-        color: #ff4d4d; }
-        .sequence-diagram .diagram-body table .fragment-guard span {
-          padding: 3px 6px 0;
-          display: inline-block; }
-        .sequence-diagram .diagram-body table .fragment-guard.bordered {
-          border-top: 1px dashed #FF7D7D; }
-      .sequence-diagram .diagram-body table .fragment-end {
-        margin: 0 3px;
-        border-bottom: 1px solid #FF7D7D; }
-      .sequence-diagram .diagram-body table .message {
-        border-bottom: 1px solid #666;
-        padding-bottom: 3px;
-        position: relative; }
-        .sequence-diagram .diagram-body table .message.reply {
-          border-bottom-style: dashed; }
-        .sequence-diagram .diagram-body table .message.right:after {
+        .sequence-diagram .diagram-body table .padding td .virtual-border {
           position: absolute;
-          content: '\25B6';
-          bottom: -8px;
-          right: -1px;
-          color: #666; }
-          .sequence-diagram .diagram-body table .message.right:after.async {
-            content: '>';
-            bottom: -7px;
-            right: 0; }
-        .sequence-diagram .diagram-body table .message.left:after {
-          position: absolute;
-          content: '\25C0';
-          bottom: -8px;
           left: -1px;
-          color: #666; }
-          .sequence-diagram .diagram-body table .message.left:after.async {
-            content: '<';
-            bottom: -7px;
-            left: 0; }
+          top: 0;
+          border-left: 1px solid #666; }
+  .sequence-diagram .message {
+    border-bottom: 1px solid #666;
+    padding-bottom: 3px;
+    position: relative; }
+    .sequence-diagram .message.reply {
+      border-bottom-style: dashed; }
+    .sequence-diagram .message.right:after {
+      position: absolute;
+      content: '\25B6';
+      bottom: -8px;
+      right: -1px;
+      color: #666; }
+      .sequence-diagram .message.right:after.async {
+        content: '>';
+        bottom: -7px;
+        right: 0; }
+    .sequence-diagram .message.left:after {
+      position: absolute;
+      content: '\25C0';
+      bottom: -8px;
+      left: -1px;
+      color: #666; }
+      .sequence-diagram .message.left:after.async {
+        content: '<';
+        bottom: -7px;
+        left: 0; }
+  .sequence-diagram .note {
+    border: 1px solid #999;
+    margin: 0 3px;
+    padding: 3px;
+    background: #fff; }
+  .sequence-diagram .fragment {
+    margin: 0;
+    border: 1px solid #666;
+    border-bottom: 0 none;
+    text-align: left;
+    padding-bottom: 3px; }
+    .sequence-diagram .fragment div {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #666;
+      padding: 3px 10px 3px 6px;
+      margin-left: -1px;
+      margin-top: -1px;
+      background: #fff; }
+      .sequence-diagram .fragment div span {
+        font-size: 0.9em; }
+      .sequence-diagram .fragment div:before {
+        content: '';
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        border-style: solid;
+        border-width: 0 0 9px 9px;
+        border-color: transparent transparent #666 transparent; }
+      .sequence-diagram .fragment div:after {
+        content: '';
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        border-style: solid;
+        border-width: 0 0 8px 8px;
+        border-color: transparent transparent #fff transparent; }
+  .sequence-diagram .guard {
+    margin: 0;
+    padding: 0 6px;
+    border: 0 solid #666;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    text-align: left; }
+    .sequence-diagram .guard span {
+      font-size: 0.9em; }
+    .sequence-diagram .guard.bordered {
+      border-top: 1px dashed #666; }
+  .sequence-diagram .fragment-end {
+    margin: 0;
+    border: 1px solid #666;
+    border-top: 0 none;
+    height: 6px; }
+  .sequence-diagram .fragment-depth--1 {
+    margin: 0 3px; }
+  .sequence-diagram .fragment-depth--2 {
+    margin: 0 6px; }
+  .sequence-diagram .fragment-depth--3 {
+    margin: 0 8px; }
+  .sequence-diagram .fragment-depth--4 {
+    margin: 0 10px; }
+  .sequence-diagram .fragment-depth--5 {
+    margin: 0 12px; }

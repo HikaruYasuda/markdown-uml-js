@@ -1,6 +1,5 @@
 * {
   font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-  font-size: 12px;
   box-sizing: border-box;
 }
 
@@ -13,6 +12,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  font-size: 12px;
 }
 
 #menu {
@@ -66,6 +66,7 @@ html, body {
   outline: none;
   background-color: #EEE;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
 }
 
 #preview {
@@ -73,6 +74,7 @@ html, body {
   overflow: auto;
   margin: 0;
   padding: 10px;
+  font-size: 12px;
 }
 
 @mixin bevel($size, $color, $bgColor) {
@@ -115,6 +117,7 @@ html, body {
   }
   .diagram-body {
     overflow: auto;
+    padding: 0 6px;
     table {
       margin: 6px 0;
       width: auto;
@@ -141,6 +144,7 @@ html, body {
       td {
         width: 80px;
         line-height: 1.4;
+        position: relative;
       }
       td.pipe, .padding td {
         border-left: 1px solid #666;
@@ -150,84 +154,96 @@ html, body {
       }
       .padding td {
         height: 10px;
-      }
-      $fragment-color: #FF7D7D;
-      $fragment-font-color: #ff4d4d;
-      .note {
-        border: 1px solid #999;
-        margin: 0 3px;
-        padding: 3px;
-      }
-      .fragment {
-        margin: 0 3px;
-        border: 1px solid $fragment-color;
-        border-bottom: 0 none;
-        text-align: left;
-        div {
-          position: relative;
-          display: inline-block;
-          border: 1px solid $fragment-color;
-          padding: 3px 10px 3px 6px;
-          margin-left: -1px;
-          margin-top: -1px;
-          color: $fragment-font-color;
-          span:before {
-            content: 'opt ';
-          }
-          @include bevel(9px, $fragment-color, #fff);
-        }
-      }
-      .fragment-guard {
-        margin: 0 3px;
-        border: 0 solid $fragment-color;
-        border-right-width: 1px;
-        border-left-width: 1px;
-        text-align: left;
-        color: $fragment-font-color;
-        span {
-          padding: 3px 6px 0;
-          display: inline-block;
-        }
-        &.bordered {
-          border-top: 1px dashed $fragment-color;
-        }
-      }
-      .fragment-end {
-        margin: 0 3px;
-        border-bottom: 1px solid $fragment-color;
-      }
-      .message {
-        border-bottom: 1px solid #666;
-        padding-bottom: 3px;
-        position: relative;
-        &.reply {
-          border-bottom-style: dashed;
-        }
-        &.right:after {
+        .virtual-border {
           position: absolute;
-          content: '\25B6';
-          bottom: -8px;
-          right: -1px;
-          color: #666;
-          &.async {
-            content: '>';
-            bottom: -7px;
-            right: 0;
-          }
-        }
-        &.left:after {
-          position: absolute;
-          content: '\25C0';
-          bottom: -8px;
           left: -1px;
-          color: #666;
-          &.async {
-            content: '<';
-            bottom: -7px;
-            left: 0;
-          }
+          top: 0;
+          border-left: 1px solid #666;
         }
       }
     }
   }
+  .message {
+    border-bottom: 1px solid #666;
+    padding-bottom: 3px;
+    position: relative;
+    &.reply {
+      border-bottom-style: dashed;
+    }
+    &.right:after {
+      position: absolute;
+      content: '\25B6';
+      bottom: -8px;
+      right: -1px;
+      color: #666;
+      &.async {
+        content: '>';
+        bottom: -7px;
+        right: 0;
+      }
+    }
+    &.left:after {
+      position: absolute;
+      content: '\25C0';
+      bottom: -8px;
+      left: -1px;
+      color: #666;
+      &.async {
+        content: '<';
+        bottom: -7px;
+        left: 0;
+      }
+    }
+  }
+  .note {
+    border: 1px solid #999;
+    margin: 0 3px;
+    padding: 3px;
+    background: #fff;
+  }
+  .fragment {
+    margin: 0;
+    border: 1px solid #666;
+    border-bottom: 0 none;
+    text-align: left;
+    padding-bottom: 3px;
+    div {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #666;
+      padding: 3px 10px 3px 6px;
+      margin-left: -1px;
+      margin-top: -1px;
+      background: #fff;
+      span {
+        font-size: 0.9em;
+      }
+      @include bevel(9px, #666, #fff);
+    }
+  }
+  .guard {
+    margin: 0;
+    padding: 0 6px;
+    border: 0 solid #666;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    text-align: left;
+    span {
+      font-size: 0.9em;
+    }
+    &.bordered {
+      border-top: 1px dashed #666;
+    }
+  }
+  .fragment-end {
+    margin: 0 ;
+    border: 1px solid #666;
+    border-top: 0 none;
+    height: 6px;
+  }
+  .fragment-depth--1 { margin: 0 3px; }
+  .fragment-depth--2 { margin: 0 6px; }
+  .fragment-depth--3 { margin: 0 8px; }
+  .fragment-depth--4 { margin: 0 10px; }
+  .fragment-depth--5 { margin: 0 12px; }
 }
