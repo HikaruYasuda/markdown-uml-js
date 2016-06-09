@@ -1,4 +1,4 @@
-# Markdownでシーケンス図 Demo
+# MarkdownでUML
 
 ## シーケンス図記法
 

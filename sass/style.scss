@@ -65,7 +65,8 @@ html, body {
   resize: none;
   outline: none;
   background-color: #EEE;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: Consolas, "Liberation Mono", Osaka-mono, "Osaka-等幅", "ＭＳ ゴシック", monospace;
+  line-height: 1.2;
   font-size: 12px;
 }
 
@@ -98,6 +99,13 @@ html, body {
   }
 }
 
+.markdown-body [type="checkbox"] {
+  margin-left: -1.2em;
+}
+
+$z-execution: 5;
+$z-note: 8;
+$z-comment: 10;
 .sequence-diagram {
   border: 1px solid #ddd;
   margin-bottom: 16px;
@@ -145,6 +153,12 @@ html, body {
         width: 80px;
         line-height: 1.4;
         position: relative;
+        .fill {
+          position: absolute;
+          left: -1px;
+          top: 0;
+          border-left: 1px solid #666;
+        }
       }
       td.pipe, .padding td {
         border-left: 1px solid #666;
@@ -154,19 +168,30 @@ html, body {
       }
       .padding td {
         height: 10px;
-        .virtual-border {
-          position: absolute;
-          left: -1px;
-          top: 0;
-          border-left: 1px solid #666;
+      }
+      .execution td {
+        .fill {
+          z-index: $z-execution;
+          left: -4px;
+          top: -10px;
+          //bottom: 3px;
+          height: 18px;
+          width: 9px;
+          border: 1px solid #666;
+          background: #FFF;
+        }
+        .fill--end {
+          height: 8px;
         }
       }
     }
   }
   .message {
     border-bottom: 1px solid #666;
+    margin: 0 4px;
     padding-bottom: 3px;
     position: relative;
+    z-index: $z-comment;
     &.reply {
       border-bottom-style: dashed;
     }
@@ -200,18 +225,31 @@ html, body {
     }
   }
   .note {
+    position: relative;
+    z-index: $z-note;
     border: 1px solid #999;
-    margin: 0 3px;
+    margin: 0 6px;
     padding: 3px;
     background: #fff;
   }
   .fragment {
+    position: relative;
+    z-index: $z-comment;
     margin: 0;
     border: 1px solid #666;
     border-bottom: 0 none;
     text-align: left;
     padding-bottom: 3px;
-    div {
+    .fill {
+      position: absolute;
+      left: -1px;
+      right: -1px;
+      top: 0;
+      border: 0 solid #666;
+      border-left-width: 1px;
+      border-right-width: 1px;
+    }
+    .fragment-title {
       position: relative;
       display: inline-block;
       border: 1px solid #666;
@@ -226,6 +264,8 @@ html, body {
     }
   }
   .guard {
+    position: relative;
+    z-index: $z-comment;
     margin: 0;
     padding: 0 6px;
     border: 0 solid #666;
@@ -240,6 +280,8 @@ html, body {
     }
   }
   .fragment-end {
+    position: relative;
+    z-index: $z-comment;
     margin: 0 ;
     border: 1px solid #666;
     border-top: 0 none;

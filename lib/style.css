@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
   box-sizing: border-box; }
@@ -66,7 +67,8 @@ html, body {
   resize: none;
   outline: none;
   background-color: #EEE;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: Consolas, "Liberation Mono", Osaka-mono, "Osaka-等幅", "ＭＳ ゴシック", monospace;
+  line-height: 1.2;
   font-size: 12px; }
 
 #preview {
@@ -76,6 +78,9 @@ html, body {
   margin: 0;
   padding: 10px;
   font-size: 12px; }
+
+.markdown-body [type="checkbox"] {
+  margin-left: -1.2em; }
 
 .sequence-diagram {
   border: 1px solid #ddd;
@@ -129,21 +134,33 @@ html, body {
         width: 80px;
         line-height: 1.4;
         position: relative; }
+        .sequence-diagram .diagram-body table td .fill {
+          position: absolute;
+          left: -1px;
+          top: 0;
+          border-left: 1px solid #666; }
       .sequence-diagram .diagram-body table td.pipe, .sequence-diagram .diagram-body table .padding td {
         border-left: 1px solid #666; }
         .sequence-diagram .diagram-body table td.pipe:first-child, .sequence-diagram .diagram-body table .padding td:first-child {
           border-left: 0 none; }
       .sequence-diagram .diagram-body table .padding td {
         height: 10px; }
-        .sequence-diagram .diagram-body table .padding td .virtual-border {
-          position: absolute;
-          left: -1px;
-          top: 0;
-          border-left: 1px solid #666; }
+      .sequence-diagram .diagram-body table .execution td .fill {
+        z-index: 5;
+        left: -4px;
+        top: -10px;
+        height: 18px;
+        width: 9px;
+        border: 1px solid #666;
+        background: #FFF; }
+      .sequence-diagram .diagram-body table .execution td .fill--end {
+        height: 8px; }
   .sequence-diagram .message {
     border-bottom: 1px solid #666;
+    margin: 0 4px;
     padding-bottom: 3px;
-    position: relative; }
+    position: relative;
+    z-index: 10; }
     .sequence-diagram .message.reply {
       border-bottom-style: dashed; }
     .sequence-diagram .message.right:after {
@@ -167,17 +184,29 @@ html, body {
       bottom: -7px;
       left: 0; }
   .sequence-diagram .note {
+    position: relative;
+    z-index: 8;
     border: 1px solid #999;
-    margin: 0 3px;
+    margin: 0 6px;
     padding: 3px;
     background: #fff; }
   .sequence-diagram .fragment {
+    position: relative;
+    z-index: 10;
     margin: 0;
     border: 1px solid #666;
     border-bottom: 0 none;
     text-align: left;
     padding-bottom: 3px; }
-    .sequence-diagram .fragment div {
+    .sequence-diagram .fragment .fill {
+      position: absolute;
+      left: -1px;
+      right: -1px;
+      top: 0;
+      border: 0 solid #666;
+      border-left-width: 1px;
+      border-right-width: 1px; }
+    .sequence-diagram .fragment .fragment-title {
       position: relative;
       display: inline-block;
       border: 1px solid #666;
@@ -185,9 +214,9 @@ html, body {
       margin-left: -1px;
       margin-top: -1px;
       background: #fff; }
-      .sequence-diagram .fragment div span {
+      .sequence-diagram .fragment .fragment-title span {
         font-size: 0.9em; }
-      .sequence-diagram .fragment div:before {
+      .sequence-diagram .fragment .fragment-title:before {
         content: '';
         position: absolute;
         right: -1px;
@@ -195,7 +224,7 @@ html, body {
         border-style: solid;
         border-width: 0 0 9px 9px;
         border-color: transparent transparent #666 transparent; }
-      .sequence-diagram .fragment div:after {
+      .sequence-diagram .fragment .fragment-title:after {
         content: '';
         position: absolute;
         right: -1px;
@@ -204,6 +233,8 @@ html, body {
         border-width: 0 0 8px 8px;
         border-color: transparent transparent #fff transparent; }
   .sequence-diagram .guard {
+    position: relative;
+    z-index: 10;
     margin: 0;
     padding: 0 6px;
     border: 0 solid #666;
@@ -215,6 +246,8 @@ html, body {
     .sequence-diagram .guard.bordered {
       border-top: 1px dashed #666; }
   .sequence-diagram .fragment-end {
+    position: relative;
+    z-index: 10;
     margin: 0;
     border: 1px solid #666;
     border-top: 0 none;
