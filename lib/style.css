@@ -152,20 +152,20 @@ html, body {
       bottom: -8px;
       right: -1px;
       color: #666; }
-      .sequence-diagram .message.right:after.async {
-        content: '>';
-        bottom: -7px;
-        right: 0; }
+    .sequence-diagram .message.right.async:after {
+      content: '>';
+      bottom: -7px;
+      right: 0; }
     .sequence-diagram .message.left:after {
       position: absolute;
       content: '\25C0';
       bottom: -8px;
       left: -1px;
       color: #666; }
-      .sequence-diagram .message.left:after.async {
-        content: '<';
-        bottom: -7px;
-        left: 0; }
+    .sequence-diagram .message.left.async:after {
+      content: '<';
+      bottom: -7px;
+      left: 0; }
   .sequence-diagram .note {
     border: 1px solid #999;
     margin: 0 3px;
