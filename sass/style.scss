@@ -104,6 +104,7 @@ html, body {
 }
 
 $z-execution: 5;
+$z-execution-end: 3;
 $z-note: 8;
 $z-comment: 10;
 .sequence-diagram {
@@ -174,14 +175,20 @@ $z-comment: 10;
           z-index: $z-execution;
           left: -4px;
           top: -10px;
-          //bottom: 3px;
           height: 18px;
           width: 9px;
           border: 1px solid #666;
           background: #FFF;
         }
         .fill--end {
+          position: absolute;
+          z-index: $z-execution-end;
+          left: -4px;
           height: 8px;
+          width: 9px;
+          border: 1px solid #666;
+          border-top: 0;
+          background: #FFF;
         }
       }
     }

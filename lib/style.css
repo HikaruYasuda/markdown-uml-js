@@ -154,7 +154,14 @@ html, body {
         border: 1px solid #666;
         background: #FFF; }
       .sequence-diagram .diagram-body table .execution td .fill--end {
-        height: 8px; }
+        position: absolute;
+        z-index: 3;
+        left: -4px;
+        height: 8px;
+        width: 9px;
+        border: 1px solid #666;
+        border-top: 0;
+        background: #FFF; }
   .sequence-diagram .message {
     border-bottom: 1px solid #666;
     margin: 0 4px;
