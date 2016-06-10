@@ -158,7 +158,7 @@ html, body {
   .sequence-diagram .message {
     border-bottom: 1px solid #666;
     margin: 0 4px;
-    padding-bottom: 3px;
+    padding: 0 3px 3px;
     position: relative;
     z-index: 10; }
     .sequence-diagram .message.reply {
