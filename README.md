@@ -4,6 +4,8 @@
 
 http://hikaruyasuda.github.io/markdown-uml-js/
 
+[README.md をDemoサイトで開く](http://hikaruyasuda.github.io/markdown-uml-js/?https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md)
+
 ### メニュー
 
 使って確認してください
