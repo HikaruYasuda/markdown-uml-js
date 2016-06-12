@@ -2,12 +2,12 @@
   "use strict";
 
   var isOSX = /Mac|PPC/.test(navigator.userAgent),
-    shift = ['e.shiftKey', '&#x21E7;', 'Shift'],
     ex = {
       ex: ['e.ctrlKey ^ e.metaKey', '&#x2318;', 'Ctrl'],
       ctrl: ['e.ctrlKey', '&#x2303;', 'Ctrl'],
       alt: ['e.altKey', '&#x2325;', 'Alt'],
-      esc: ['e.keyCode == 27', '&#x238B;', 'Esc']
+      esc: ['e.keyCode == 27', '&#x238B;', 'Esc'],
+      shift: ['e.shiftKey', '&#x21E7;', 'Shift']
     };
 
   window.menu = {
@@ -72,9 +72,9 @@
           shortcuts.push(cap[0]);
         } else if (typeof keys[i] == 'string') {
           if (keys[i].toLowerCase() != keys[i]) {
-            requires.push(shift[0]);
-            shortcuts.push(isOSX ? shift[1] : shift[2]);
-          } else {
+            requires.push(ex.shift[0]);
+            shortcuts.push(isOSX ? ex.shift[1] : ex.shift[2]);
+          } else if (!~requires.indexOf('e.shiftKey')) {
             requires.push('!e.shiftKey');
           }
           keys[i] = keys[i].substr(0,1).toUpperCase();

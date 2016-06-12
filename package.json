@@ -2,13 +2,18 @@
   "name": "markdown-uml-js",
   "version": "1.0.0",
   "description": "markdown + uml",
-  "main": "index.html",
+  "main": "lib/markdown.sequence.js",
   "scripts": {
     "start": "npm run watch",
-    "watch": "watch 'npm run build:css' sass",
-    "css:sass": "node-sass --style compact sass/*.scss lib/style.css",
+    "watch:css": "watch 'npm run build:css' assets/styles",
+    "watch:js": "watch 'npm run build:js' assets/scripts",
+    "watch": "npm run watch:css & npm run watch:js",
+    "css:sass": "node-sass --output-style nested assets/styles/style.scss lib/style.css",
     "css:prefix": "autoprefixer-cli -b 'last 2 versions' lib/style.css",
+    "js:pack": "uglifyjs assets/scripts/{menu,script}.js -m -o lib/bundle.js",
     "build:css": "npm run css:sass && npm run css:prefix",
+    "build:js": "npm run js:pack",
+    "build": "npm run build:css & npm run build:js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,10 +26,16 @@
     "url": "https://github.com/HikaruYasuda/markdown-uml-js/issues"
   },
   "homepage": "https://github.com/HikaruYasuda/markdown-uml-js#readme",
-  "dependencies": {},
+  "dependencies": {
+    "generate-github-markdown-css": "^2.0.0",
+    "highlight": "^0.2.4"
+  },
   "devDependencies": {
     "autoprefixer-cli": "^1.0.0",
+    "clean-css": "^3.4.17",
     "node-sass": "^3.7.0",
-    "watch": "^0.18.0"
+    "uglify-js": "^2.6.2",
+    "watch": "^0.18.0",
+    "webpack": "^1.13.1"
   }
 }

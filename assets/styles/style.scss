@@ -65,7 +65,8 @@ html, body {
   resize: none;
   outline: none;
   background-color: #EEE;
-  font-family: Consolas, "Liberation Mono", Osaka-mono, "Osaka-等幅", "ＭＳ ゴシック", monospace;
+  font-family: 'Monaco', courier, monospace;
+  //font-family: "Liberation Mono", Osaka-mono, "Osaka-等幅", "ＭＳ ゴシック", Consolas, monospace;
   line-height: 1.2;
   font-size: 12px;
 }
@@ -76,6 +77,10 @@ html, body {
   margin: 0;
   padding: 10px;
   font-size: 12px;
+}
+
+.markdown-body [type="checkbox"] {
+  margin-left: -1.2em;
 }
 
 @mixin bevel($size, $color, $bgColor) {
@@ -97,10 +102,6 @@ html, body {
     border-width: 0 0 #{$size - 1} #{$size - 1};
     border-color: transparent transparent $bgColor transparent;
   }
-}
-
-.markdown-body [type="checkbox"] {
-  margin-left: -1.2em;
 }
 
 $z-execution: 5;
@@ -152,6 +153,7 @@ $z-comment: 10;
 
       td {
         width: 80px;
+        min-width: 10px;
         line-height: 1.4;
         position: relative;
         .fill {
@@ -184,7 +186,7 @@ $z-comment: 10;
           position: absolute;
           z-index: $z-execution-end;
           left: -4px;
-          height: 8px;
+          height: 4px;
           width: 9px;
           border: 1px solid #666;
           border-top: 0;

@@ -1,29 +1,14 @@
 (function() {
   "use strict";
   $.event.fixHooks.drop = {props: ['dataTransfer']};
-  $.fn.requestFullscreen = function() {
-    var elm = this[0];
-    if (!elm) return;
-    var fn = elm['requestFullscreen'] ||
-      elm['webkitRequestFullscreen'] ||
-      elm['mozRequestFullscreen'] ||
-      elm['msRequestFullscreen'];
-    if (typeof fn == 'function') return fn.call(elm);
-  };
-  $.fn.setMarkdown = function(data, state) {
-    this.val(data || '').trigger('change');
-    if (typeof state == 'boolean') {
-      changed = state;
-    }
-    return this;
-  };
+  $._requestFullScreen = (function(e) { return e['requestFullscreen'] || e['webkitRequestFullscreen'] || e['mozRequestFullscreen'] || e['msRequestFullscreen'] || function(){}; }(document.body));
+  $.fn.requestFullscreen = function() { return this.each(function() { $._requestFullScreen(this); return false; }); };
   $.fn.getRect = function() {
     if (!this.length) return null;
-    /** @type {{left: Number?, top: Number?, right: Number?, bottom: Number?, width: Number?, height: Number?}} */
-    var rect = {left: null, top: null, right: null, bottom: null, width: null, height: null};
+    var rect = {};
     this.each(function() {
       var _rect = this.getBoundingClientRect();
-      if (rect.left) {
+      if (rect.left !== void 0) {
         rect.left = Math.min(rect.left, _rect.left);
         rect.right = Math.max(rect.right, _rect.right);
         rect.top = Math.min(rect.top, _rect.top);
@@ -37,21 +22,40 @@
     return rect;
   };
   toastr.options = {timeOut: 1500};
+  marked.setOptions({
+    renderer: (function(renderer) {
+      renderer.listitem = function(text) {
+        if (/^\s*\[[x ]]\s*/.test(text)) {
+          text = text.replace(/^\s*\[ ]\s*/, '<input type="checkbox" class="task-list-item-checkbox"> ')
+            .replace(/^\s*\[x]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked="checked"> ');
+          return '<li style="list-style: none">' + text + '</li>';
+        } else {
+          return '<li>' + text + '</li>';
+        }
+      };
+    }(new marked.Renderer)),
+    highlight: function(code, lang) {
+      return hljs.highlightAuto(code, [lang]).value;
+    }
+  });
 
   $(window).on('beforeunload', function() {
     return '閉じますか？';
   });
 
-  var $menu = $('#menu'),
+  var changed = false,
     $workspace = $('#workspace').on('drop', function(e) {
       readFile(e['dataTransfer'].files[0], function(text) {
-        $markdown.setMarkdown(text);
+        setMarkdown(text);
       });
       return false;
     }),
     $markdown = $('#markdown').on('input change', function() {
-      $preview.html(markdown(this.value)).trigger('resize');
-      changed = true;
+      marked(this.value, function(err, out) {
+        if (err) return console.error(err);
+        $preview.html(out).trigger('resize');
+        changed = true;
+      });
     }),
     $preview = $('#preview').on('resize', function() {
       $('.fill').each(function() {
@@ -61,9 +65,44 @@
         if (rect) $this.height(rect.height);
       });
     }),
-    changed = false;
+    setMarkdown = function(data, state) {
+      $markdown.val(data || '').trigger('change');
+      if (typeof state == 'boolean') {
+        changed = state;
+      }
+      return this;
+    },
+    config = {
+      get: function(k, def) {
+        try { var data = JSON.parse(localStorage.getItem('config')); } catch (e) {}
+        data = data||{};
+        if (!k) return data;
+        if (data[k] === void 0) return def;
+        return data[k];
+      },
+      set: function(k, v) {
+        if (!k) return;
+        var data = get(k);
+        if (v === void 0) {
+          delete data[k];
+        } else {
+          data[k] = v;
+        }
+        localStorage.setItem('config', JSON.stringify(data));
+      }
+    },
+    run_opts = function(opts, query) {
+      if (query = (query || location.search.slice(1))) {
+        var qs = query.split(/&/g),
+          i = 0, ii = qs.length, q;
+        for (; i < ii; i++) {
+          q = qs[i].split('=');
+          if (opts[q[0]]) opts[q[0]](decodeURIComponent(q[1]));
+        }
+      }
+    };
 
-  $menu.html(menu
+  $('#menu').html(menu.start()
     .add('Github', function() {
       window.open('https://github.com/HikaruYasuda/markdown-uml-js', '_blank');
     })
@@ -73,7 +112,7 @@
       toastr.info('Saved.');
     })
     .add('Reload', 'ex+r', function() {
-      $markdown.setMarkdown(getLocal(), false);
+      setMarkdown(getLocal(), false);
       toastr.info('Reloaded.');
     })
     .add('Export...', 'ex+e', function() {
@@ -82,9 +121,7 @@
       download(title+'.md', $markdown.val());
     })
     .add('Import...', 'ex+i', function() {
-      openFile(function(text) {
-        $markdown.setMarkdown(text);
-      });
+      openFile(setMarkdown);
     })
     .add('Open URL...', function() {
       var url = prompt('Input URL for open', 'https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md');
@@ -92,62 +129,56 @@
     })
     .add('V/H', 'ex+h', function() {
       $workspace.toggleClass('vertical');
-      config('vh', $workspace.hasClass('vertical')-0);
+      config.set('vh', $workspace.hasClass('vertical')-0);
+    })
+    .add('View', 'ex+/', function() {
+      
     })
     .add('Editor', 'ex+E', function() {
       $markdown.toggle();
-      config('e', $markdown.is(':visible')-0);
+      config.set('e', $markdown.is(':visible')-0);
     })
     .add('Preview', 'ex+P', function() {
       $preview.toggle();
-      config('p', $preview.is(':visible')-0);
+      config.set('p', $preview.is(':visible')-0);
     })
     .add('FullScreen', function() {
       $workspace.requestFullscreen();
     })
-    .start().html()
+    .html()
   );
 
   init();
 
   function init() {
     var url
-      , vh = config('vh')-0
-      , e = config('e')
-      , p = config('p');
-    if (!defined(e)) e = !0;
-    if (!defined(p)) p = !0;
-    if (location.search.length > 1) {
-      var qs = location.search.slice(1).split(/&/g),
-        i = 0, ii = qs.length, q;
-      for (; i < ii; i++) {
-        q = qs[i].split('=');
-        switch (decodeURIComponent(q[0])) {
-          case 'url':
-            url = decodeURIComponent(q[1]);
-            break;
-          case 'vh':
-            vh = q[1]-0;
-            break;
-          case 'editor':
-            e = !(p = !0);
-            console.info('editor mode: on');
-            break;
-          case 'preview':
-            p = !(e = !1);
-            console.info('preview mode: on');
-            break;
-        }
+      , vh = config.get('vh')-0
+      , e = config.get('e', 1)
+      , p = config.get('p', 1);
+    run_opts({
+      url: function(v) {
+        url = v;
+      },
+      vh: function(v) {
+        vh = v-0;
+      },
+      editor: function() {
+        e = !(p = !0);
+        console.info('editor mode: on');
+      },
+      preview: function() {
+        p = !(e = !1);
+        console.info('preview mode: on');
       }
-    }
+    });
     $workspace.toggleClass('vertical', !!vh);
     $markdown.toggle(!!e);
     $preview.toggle(!!p);
     if (url) {
-      $markdown.setMarkdown('loading...\n'+url);
+      setMarkdown('loading...\n'+url);
       loadURL(url);
     } else {
-      $markdown.setMarkdown(getLocal(), false);
+      setMarkdown(getLocal(), false);
     }
   }
   function download(fileName, content) {
@@ -182,11 +213,11 @@
   }
   function loadURL(url) {
     return $.ajax(url).then(function(data) {
-      $markdown.setMarkdown(data);
+      setMarkdown(data);
       var fileName = decodeURIComponent(url.split(new RegExp('/','g')).pop().split(/[\?#]/)[0]);
       toastr.info(fileName, 'Loaded');
     }, function() {
-      $markdown.setMarkdown('failed\n'+url);
+      setMarkdown('failed\n'+url);
       toastr.error(url, 'Load error ?');
     });
   }
@@ -199,21 +230,5 @@
   function setLocal(data) {
     var stamp = (new Date-0)+':';
     localStorage.setItem('md', stamp + data);
-  }
-  function defined(v) {
-    return typeof v !== 'undefined';
-  }
-  function config(k, v) {
-    var data;
-    try { data = JSON.parse(localStorage.getItem('config')); } catch (e) {}
-    data = data||{};
-    if (!arguments.length) return data;
-    if (arguments.length == 1) return data[k];
-    if (defined(v)) {
-      data[k] = v;
-    } else {
-      delete data[k];
-    }
-    localStorage.setItem('config', JSON.stringify(data));
   }
 }());
