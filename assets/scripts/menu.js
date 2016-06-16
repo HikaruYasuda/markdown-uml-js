@@ -8,6 +8,34 @@
       alt: ['e.altKey', '&#x2325;', 'Alt'],
       esc: ['e.keyCode == 27', '&#x238B;', 'Esc'],
       shift: ['e.shiftKey', '&#x21E7;', 'Shift']
+    },
+    shiftKeyCodes = {
+      '*': 186,
+      '+': 187,
+      '<': 188,
+      '=': 189,
+      '>': 190,
+      '?': 191,
+      '`': 192,
+      '{': 219,
+      '|': 220,
+      '}': 221,
+      '~': 222,
+      '_': 226
+    },
+    keyCodes = {
+      ':': 186,
+      ';': 187,
+      ',': 188,
+      '-': 189,
+      '.': 190,
+      '/': 191,
+      '@': 192,
+      '[': 219,
+      '¥': 220,
+      ']': 221,
+      '^': 222,
+      '\\': 226
     };
 
   window.menu = {
@@ -70,6 +98,14 @@
         } else if (cap = /^F([12][0-9]|[1-9])/i.exec(keys[i])) {
           requires.push('e.keyCode===' + (cap[1] + 111));
           shortcuts.push(cap[0]);
+        } else if (keyCodes[keys[i]]) {
+          requires.push('!e.shiftKey');
+          requires.push('e.keyCode==='+keyCodes[keys[i]]);
+          shortcuts.push(keys[i]);
+        } else if (shiftKeyCodes[keys[i]]) {
+          requires.push(ex.shift[0]);
+          requires.push('e.keyCode==='+shiftKeyCodes[keys[i]]);
+          shortcuts.push(keys[i]);
         } else if (typeof keys[i] == 'string') {
           if (keys[i].toLowerCase() != keys[i]) {
             requires.push(ex.shift[0]);

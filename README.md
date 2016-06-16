@@ -4,18 +4,11 @@
 
 http://hikaruyasuda.github.io/markdown-uml-js/
 
-### メニュー
-
-使って確認してください
-
-`Save`,`Reload`はlocalStorageを使って保存、読み込みします。
-
-`V/H`,`Editor`,`Preview`は状態をlocalStorageに保存します。
+[README.md をDemoサイトで開く](http://hikaruyasuda.github.io/markdown-uml-js/?url=https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md)
 
 ### 起動オプション
 
 GETクエリで起動オプションを指定できます。
-オプションは起動時1度きりで、保存内容の上書きはしません。(one time options)
 
 key          |hint
 -------------|----

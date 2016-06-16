@@ -2,7 +2,7 @@
   "use strict";
   $.event.fixHooks.drop = {props: ['dataTransfer']};
   $._requestFullScreen = (function(e) { return e['requestFullscreen'] || e['webkitRequestFullscreen'] || e['mozRequestFullscreen'] || e['msRequestFullscreen'] || function(){}; }(document.body));
-  $.fn.requestFullscreen = function() { return this.each(function() { $._requestFullScreen(this); return false; }); };
+  $.fn.requestFullscreen = function() { return this.each(function() { $._requestFullScreen.call(this); return false; }); };
   $.fn.getRect = function() {
     if (!this.length) return null;
     var rect = {};
@@ -33,6 +33,7 @@
           return '<li>' + text + '</li>';
         }
       };
+      return renderer;
     }(new marked.Renderer)),
     highlight: function(code, lang) {
       return hljs.highlightAuto(code, [lang]).value;
@@ -82,7 +83,7 @@
       },
       set: function(k, v) {
         if (!k) return;
-        var data = get(k);
+        var data = this.get();
         if (v === void 0) {
           delete data[k];
         } else {
@@ -127,22 +128,19 @@
       var url = prompt('Input URL for open', 'https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md');
       if (url) loadURL(url);
     })
+    .add('Attach Image...', function() {
+      attachImage(function(url) {
+        console.log(url);
+      });
+    })
     .add('V/H', 'ex+h', function() {
       $workspace.toggleClass('vertical');
       config.set('vh', $workspace.hasClass('vertical')-0);
     })
     .add('View', 'ex+/', function() {
-      
+      config.set('v', viewMode(config.get('v', 0) + 1));
     })
-    .add('Editor', 'ex+E', function() {
-      $markdown.toggle();
-      config.set('e', $markdown.is(':visible')-0);
-    })
-    .add('Preview', 'ex+P', function() {
-      $preview.toggle();
-      config.set('p', $preview.is(':visible')-0);
-    })
-    .add('FullScreen', function() {
+    .add('FullScreen', 'ex+F', function() {
       $workspace.requestFullscreen();
     })
     .html()
@@ -153,27 +151,15 @@
   function init() {
     var url
       , vh = config.get('vh')-0
-      , e = config.get('e', 1)
-      , p = config.get('p', 1);
+      , view = config.get('v', 0);
     run_opts({
-      url: function(v) {
-        url = v;
-      },
-      vh: function(v) {
-        vh = v-0;
-      },
-      editor: function() {
-        e = !(p = !0);
-        console.info('editor mode: on');
-      },
-      preview: function() {
-        p = !(e = !1);
-        console.info('preview mode: on');
-      }
+      url: function(v) { url = v; },
+      vh: function(v) { vh = v-0; },
+      editor: function() { view = 2; },
+      preview: function() { view = 1; }
     });
     $workspace.toggleClass('vertical', !!vh);
-    $markdown.toggle(!!e);
-    $preview.toggle(!!p);
+    viewMode(view);
     if (url) {
       setMarkdown('loading...\n'+url);
       loadURL(url);
@@ -181,10 +167,18 @@
       setMarkdown(getLocal(), false);
     }
   }
+  function viewMode(v) {
+    v = v % 3;
+    switch (v) {
+      case 0: $markdown.show(); $preview.show(); break;
+      case 1: $markdown.hide(); $preview.show(); break;
+      case 2: $markdown.show(); $preview.hide(); break;
+    }
+    return v;
+  }
   function download(fileName, content) {
     var blob = new Blob([content]),
-      url = window['URL'] || window['webkitURL'],
-      blobURL = url['createObjectURL'](blob),
+      blobURL = createObjectURL(blob),
       a = document.createElement('a');
     a.download = fileName;
     a.href = blobURL;
@@ -200,16 +194,33 @@
         this.parentNode.removeChild(this);
       });
   }
+  function attachImage(callback) {
+    $('<input type="file">')
+      .change(function(e) {
+        toBlobURL(e.target.files[0], callback);
+      })
+      .appendTo('body').each(function() {
+      this.click();
+      this.parentNode.removeChild(this);
+    });
+  }
   function readFile(file, callback) {
     if (!file) return;
-    if (file.size > 100000) {
-      return toastr.info('File size is too large. (max: 100kB)');
-    }
+    if (file.size > 100000) return toastr.info('File size is too large. (max: 100kB)');
     var reader = new FileReader();
     reader.onload = function(e) {
       callback(e.target.result);
     };
     reader.readAsText(file);
+  }
+  function toBlobURL(file, callback) {
+    if (!file) return;
+    if (file.size > 1000000) return toastr.info('File size is too large. (max: 1MB)');
+    callback(createObjectURL(file));
+  }
+  function createObjectURL(file) {
+    var URL = window['URL'] || window['webkitURL'];
+    return URL['createObjectURL'](file);
   }
   function loadURL(url) {
     return $.ajax(url).then(function(data) {
