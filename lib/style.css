@@ -94,14 +94,14 @@ html, body {
   margin-left: -1.2em; }
 
 .sequence-diagram {
-  border: 1px solid #ddd;
+  border: 1px solid #aaa;
   margin-bottom: 16px; }
   .sequence-diagram .diagram-title {
     position: relative;
     display: inline-block;
-    border: 1px solid #ddd;
+    border: 1px solid #aaa;
     padding: 3px 10px 3px 6px;
-    background: #eee;
+    background: #fff;
     margin-left: -1px;
     margin-top: -1px; }
     .sequence-diagram .diagram-title span:before {
@@ -113,7 +113,7 @@ html, body {
       bottom: -1px;
       border-style: solid;
       border-width: 0 0 9px 9px;
-      border-color: transparent transparent #ddd transparent; }
+      border-color: transparent transparent #aaa transparent; }
     .sequence-diagram .diagram-title:after {
       content: '';
       position: absolute;
@@ -156,7 +156,7 @@ html, body {
         .sequence-diagram .diagram-body table td.pipe:first-child, .sequence-diagram .diagram-body table .padding td:first-child {
           border-left: 0 none; }
       .sequence-diagram .diagram-body table .padding td {
-        height: 10px; }
+        height: 8px; }
       .sequence-diagram .diagram-body table .execution td .fill {
         z-index: 5;
         left: -4px;
@@ -208,7 +208,12 @@ html, body {
     border: 1px solid #999;
     margin: 0 6px;
     padding: 3px;
-    background: #fff; }
+    background: #fff;
+    text-align: center; }
+    .sequence-diagram .note.align-left {
+      text-align: left; }
+    .sequence-diagram .note.align-right {
+      text-align: right; }
   .sequence-diagram .fragment {
     position: relative;
     z-index: 6;

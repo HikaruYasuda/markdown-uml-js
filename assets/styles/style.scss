@@ -122,21 +122,21 @@ $z-fragment: 6;
 $z-note: 8;
 $z-comment: 10;
 .sequence-diagram {
-  border: 1px solid #ddd;
+  border: 1px solid #aaa;
   margin-bottom: 16px;
 
   .diagram-title {
     position: relative;
     display: inline-block;
-    border: 1px solid #ddd;
+    border: 1px solid #aaa;
     padding: 3px 10px 3px 6px;
-    background: #eee;
+    background: #fff;
     margin-left: -1px;
     margin-top: -1px;
     span:before {
       content: 'sd ';
     }
-    @include bevel(9px, #ddd, #fff);
+    @include bevel(9px, #aaa, #fff);
   }
   .diagram-body {
     overflow: auto;
@@ -183,7 +183,7 @@ $z-comment: 10;
         }
       }
       .padding td {
-        height: 10px;
+        height: 8px;
       }
       .execution td {
         .fill {
@@ -253,6 +253,13 @@ $z-comment: 10;
     margin: 0 6px;
     padding: 3px;
     background: #fff;
+    text-align: center;
+    &.align-left {
+      text-align: left;
+    }
+    &.align-right {
+      text-align: right;
+    }
   }
   .fragment {
     position: relative;
