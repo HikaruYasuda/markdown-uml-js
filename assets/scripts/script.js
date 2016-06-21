@@ -1,8 +1,6 @@
 (function() {
   "use strict";
   $.event.fixHooks.drop = {props: ['dataTransfer']};
-  $._requestFullScreen = (function(e) { return e['requestFullscreen'] || e['webkitRequestFullscreen'] || e['mozRequestFullscreen'] || e['msRequestFullscreen'] || function(){}; }(document.body));
-  $.fn.requestFullscreen = function() { return this.each(function() { $._requestFullScreen.call(this); return false; }); };
   $.fn.getRect = function() {
     if (!this.length) return null;
     var rect = {};
@@ -45,6 +43,8 @@
   });
 
   var changed = false,
+    queue = null,
+    delay = 30,
     $workspace = $('#workspace').on('drop', function(e) {
       readFile(e['dataTransfer'].files[0], function(text) {
         setMarkdown(text);
@@ -52,11 +52,14 @@
       return false;
     }),
     $markdown = $('#markdown').on('input change', function() {
-      marked(this.value, function(err, out) {
-        if (err) return console.error(err);
-        $preview.html(out).trigger('resize');
-        changed = true;
-      });
+      if (queue) clearTimeout(queue);
+      queue = setTimeout(function() {
+        marked(this.value, function(err, out) {
+          if (err) return console.error(err);
+          $preview.html(out).trigger('resize');
+          changed = true;
+        });
+      }.bind(this), delay);
     }),
     $preview = $('#preview').on('resize', function() {
       $('.fill').each(function() {
@@ -134,14 +137,12 @@
       });
     })
     .add('V/H', 'ex+h', function() {
-      $workspace.toggleClass('vertical');
-      config.set('vh', $workspace.hasClass('vertical')-0);
+      config.set('vh', vertical(! vertical()));
     })
     .add('View', 'ex+/', function() {
       config.set('v', viewMode(config.get('v', 0) + 1));
     })
-    .add('FullScreen', 'ex+F', function() {
-      $workspace.requestFullscreen();
+    .add('Presentation', 'ex+P', function() {
     })
     .html()
   );
@@ -153,12 +154,12 @@
       , vh = config.get('vh')-0
       , view = config.get('v', 0);
     run_opts({
-      url: function(v) { url = v; },
-      vh: function(v) { vh = v-0; },
-      editor: function() { view = 2; },
-      preview: function() { view = 1; }
+      'url': function(v) { url = v; },
+      'vh': function(v) { vh = v-0; },
+      'editor': function() { view = 2; },
+      'preview': function() { view = 1; }
     });
-    $workspace.toggleClass('vertical', !!vh);
+    vertical(vh);
     viewMode(view);
     if (url) {
       setMarkdown('loading...\n'+url);
@@ -167,6 +168,13 @@
       setMarkdown(getLocal(), false);
     }
   }
+  function vertical(state) {
+    if (state !== void 0) {
+      $workspace.toggleClass('vertical', !!state);
+      $preview.trigger('resize');
+    }
+    return $workspace.hasClass('vertical')-0;
+  }
   function viewMode(v) {
     v = v % 3;
     switch (v) {
@@ -174,34 +182,35 @@
       case 1: $markdown.hide(); $preview.show(); break;
       case 2: $markdown.show(); $preview.hide(); break;
     }
+    $preview.trigger('resize');
     return v;
   }
   function download(fileName, content) {
-    var blob = new Blob([content]),
-      blobURL = createObjectURL(blob),
+    var blobURL = createObjectURL(new Blob([content], 'text/markdown')),
       a = document.createElement('a');
     a.download = fileName;
     a.href = blobURL;
     a.click();
   }
-  function openFile(callback) {
+  function chooseFile(callback) {
     $('<input type="file">')
       .change(function(e) {
-        readFile(e.target.files[0], callback);
+        e.target.files.length && callback(e.target.files[0]);
       })
-      .appendTo('body').each(function() {
+      .appendTo('body')
+      .each(function() {
         this.click();
-        this.parentNode.removeChild(this);
+        $(this).remove();
       });
   }
+  function openFile(callback) {
+    chooseFile(function(file) {
+      readFile(file, callback);
+    });
+  }
   function attachImage(callback) {
-    $('<input type="file">')
-      .change(function(e) {
-        toBlobURL(e.target.files[0], callback);
-      })
-      .appendTo('body').each(function() {
-      this.click();
-      this.parentNode.removeChild(this);
+    chooseFile(function(file) {
+      toBlobURL(file, callback);
     });
   }
   function readFile(file, callback) {
@@ -213,14 +222,14 @@
     };
     reader.readAsText(file);
   }
-  function toBlobURL(file, callback) {
-    if (!file) return;
-    if (file.size > 1000000) return toastr.info('File size is too large. (max: 1MB)');
-    callback(createObjectURL(file));
+  function toBlobURL(blob, callback) {
+    if (!blob) return;
+    if (blob.size > 1000000) return toastr.info('File size is too large. (max: 1MB)');
+    callback(createObjectURL(blob));
   }
-  function createObjectURL(file) {
+  function createObjectURL(blob) {
     var URL = window['URL'] || window['webkitURL'];
-    return URL['createObjectURL'](file);
+    return URL['createObjectURL'](blob);
   }
   function loadURL(url) {
     return $.ajax(url).then(function(data) {
