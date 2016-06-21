@@ -21,6 +21,9 @@ html, body {
   margin: 0;
   padding: 0;
   list-style: none; }
+  @media print {
+    #menu {
+      display: none; } }
   #menu li {
     display: inline-block; }
     #menu li a {
@@ -55,6 +58,9 @@ html, body {
   #workspace.vertical {
     -ms-flex-direction: column;
         flex-direction: column; }
+  @media print {
+    #workspace {
+      height: auto; } }
 
 #markdown {
   -ms-flex: 1;
@@ -69,6 +75,9 @@ html, body {
   font-family: 'Monaco', courier, monospace;
   line-height: 1.2;
   font-size: 12px; }
+  @media print {
+    #markdown {
+      overflow: visible; } }
 
 #preview {
   -ms-flex: 1;
@@ -77,6 +86,9 @@ html, body {
   margin: 0;
   padding: 10px;
   font-size: 12px; }
+  @media print {
+    #preview {
+      overflow: visible; } }
 
 .markdown-body [type="checkbox"] {
   margin-left: -1.2em; }
@@ -199,7 +211,7 @@ html, body {
     background: #fff; }
   .sequence-diagram .fragment {
     position: relative;
-    z-index: 10;
+    z-index: 6;
     margin: 0;
     border: 1px solid #666;
     border-bottom: 0 none;
@@ -254,7 +266,7 @@ html, body {
       border-top: 1px dashed #666; }
   .sequence-diagram .fragment-end {
     position: relative;
-    z-index: 10;
+    z-index: 6;
     margin: 0;
     border: 1px solid #666;
     border-top: 0 none;

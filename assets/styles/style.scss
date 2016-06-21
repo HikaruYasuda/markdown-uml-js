@@ -20,6 +20,9 @@ html, body {
   margin: 0;
   padding: 0;
   list-style: none;
+  @media print {
+    display: none;
+  }
   li {
     display: inline-block;
     a {
@@ -54,6 +57,9 @@ html, body {
   &.vertical {
     flex-direction: column;
   }
+  @media print {
+    height: auto;
+  }
 }
 
 #markdown {
@@ -69,6 +75,9 @@ html, body {
   //font-family: "Liberation Mono", Osaka-mono, "Osaka-等幅", "ＭＳ ゴシック", Consolas, monospace;
   line-height: 1.2;
   font-size: 12px;
+  @media print {
+    overflow: visible;
+  }
 }
 
 #preview {
@@ -77,6 +86,9 @@ html, body {
   margin: 0;
   padding: 10px;
   font-size: 12px;
+  @media print {
+    overflow: visible;
+  }
 }
 
 .markdown-body [type="checkbox"] {
@@ -106,6 +118,7 @@ html, body {
 
 $z-execution: 5;
 $z-execution-end: 3;
+$z-fragment: 6;
 $z-note: 8;
 $z-comment: 10;
 .sequence-diagram {
@@ -243,7 +256,7 @@ $z-comment: 10;
   }
   .fragment {
     position: relative;
-    z-index: $z-comment;
+    z-index: $z-fragment;
     margin: 0;
     border: 1px solid #666;
     border-bottom: 0 none;
@@ -290,7 +303,7 @@ $z-comment: 10;
   }
   .fragment-end {
     position: relative;
-    z-index: $z-comment;
+    z-index: $z-fragment;
     margin: 0 ;
     border: 1px solid #666;
     border-top: 0 none;
