@@ -1,5 +1,13 @@
 # そうだ、MarkdownでUMLを書こう
 
+## Hosting
+
+```bash
+$ git clone https://github.com/HikaruYasuda/markdown-uml-js.git
+$ npm i
+$ npm run serve -- --port 8000
+```
+
 ## Demo
 
 http://hikaruyasuda.github.io/markdown-uml-js/

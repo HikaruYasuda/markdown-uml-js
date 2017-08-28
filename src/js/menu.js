@@ -73,12 +73,12 @@
     },
     call: function(index, e) {
       var menu = this.menus[index];
-      if (menu && typeof menu.callback == 'function') {
+      if (menu && typeof menu.callback === 'function') {
         menu.callback(e||window.event, menu);
       }
     },
     add: function(title, key, callback) {
-      if (typeof key == 'function') {
+      if (typeof key === 'function') {
         callback = key;
         key = '';
       }
@@ -92,7 +92,7 @@
         if (ex[keys[i]]) {
           requires.push(ex[keys[i]][0]);
           shortcuts.push(isOSX ? ex[keys[i]][1] : ex[keys[i]][2]);
-        } else if (typeof keys[i] == 'number') {
+        } else if (typeof keys[i] === 'number') {
           requires.push('e.keyCode===' + keys[i]);
           shortcuts.push(String.fromCharCode(keys[i]));
         } else if (cap = /^F([12][0-9]|[1-9])/i.exec(keys[i])) {
@@ -106,8 +106,8 @@
           requires.push(ex.shift[0]);
           requires.push('e.keyCode==='+shiftKeyCodes[keys[i]]);
           shortcuts.push(keys[i]);
-        } else if (typeof keys[i] == 'string') {
-          if (keys[i].toLowerCase() != keys[i]) {
+        } else if (typeof keys[i] === 'string') {
+          if (keys[i].toLowerCase() !== keys[i]) {
             requires.push(ex.shift[0]);
             shortcuts.push(isOSX ? ex.shift[1] : ex.shift[2]);
           } else if (!~requires.indexOf('e.shiftKey')) {

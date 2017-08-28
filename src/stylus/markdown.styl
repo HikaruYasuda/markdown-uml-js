@@ -1,0 +1,195 @@
+.markdown-body [type="checkbox"]
+  margin-left -1.2em
+
+bevel($size, $color, $bgColor)
+  &:before
+    absolute right -1px bottom -1px
+    content ''
+    border-style solid
+    border-width 0 0 $size $size
+    border-color transparent transparent $color transparent
+  &:after
+    absolute right -1px bottom -1px
+    content ''
+    border-style solid
+    border-width 0 0 ($size - 1) ($size - 1)
+    border-color transparent transparent $bgColor transparent
+
+$z-execution = 5
+$z-execution-end = 3
+$z-fragment = 6
+$z-note = 8
+$z-comment = 10
+$bg-color = #fff
+$execution-color = #666
+$line-color = #666
+
+.sequence-diagram
+  border 1px solid #aaa
+  margin-bottom 16px
+
+  .diagram-title
+    position relative
+    display inline-block
+    border 1px solid #aaa
+    padding 3px 10px 3px 6px
+    background #fff
+    margin-left -1px
+    margin-top -1px
+    span:before
+      content 'sd '
+    bevel(9px, #aaa, $bg-color)
+
+  .diagram-body
+    overflow auto
+    padding 0 6px
+    table
+      margin 6px 0
+      width auto
+      border-collapse separate
+      border-spacing 0
+
+      tr, th, td
+        border 0 none
+        background transparent
+        padding 0
+        text-align center
+
+      thead th
+        .actor
+          display inline-block
+          line-height 1.3
+          padding 6px 13px
+          border 1px solid #999
+          white-space nowrap
+
+      td
+        width 80px
+        min-width 10px
+        line-height 1.4
+        position relative
+        .fill
+          absolute top 0 left -1px
+          border-left 1px solid $execution-color
+      td.pipe, .padding td
+        border-left 1px solid $line-color
+        &:first-child
+          border-left 0 none
+      .padding td
+        height 8px
+      .execution td
+        .fill
+          z-index $z-execution
+          left -4px
+          top -10px
+          height 18px
+          width 9px
+          border 1px solid $execution-color
+          background $bg-color
+        .fill--end
+          absolute left -4px
+          z-index $z-execution-end
+          height 4px
+          width 9px
+          border 1px solid $execution-color
+          border-top 0
+          background $bg-color
+
+  .message
+    position relative
+    border-bottom 1px solid $line-color
+    margin 0 4px
+    padding 0 3px 3px
+    z-index $z-comment
+    &.reply
+      border-bottom-style dashed
+    &.right
+      &:after
+        absolute right -1px bottom -8px
+        content '\25B6'
+        color $line-color
+      &.async:after
+        content '>'
+        bottom -7px
+        right 0
+    &.left
+      &:after
+        absolute left -1px bottom -8px
+        content '\25C0'
+        color $line-color
+      &.async:after
+        content '<'
+        bottom -7px
+        left 0
+    &.self
+      margin-bottom 20px
+      &:before
+        absolute left 0 right 0 bottom -17px
+        content ''
+        height 15px
+        border-right 1px solid $line-color
+        border-bottom 1px solid $line-color
+      &:after
+        absolute left -2px bottom -24px
+        content '\25C0'
+        color $line-color
+
+  .note
+    position relative
+    z-index $z-note
+    border 1px solid #999
+    margin 0 6px
+    padding 3px
+    background #fff
+    text-align center
+    &.align-left
+      text-align left
+    &.align-right
+      text-align right
+  .fragment
+    position relative
+    z-index $z-fragment
+    margin 0
+    border 1px solid #666
+    border-bottom 0 none
+    text-align left
+    padding-bottom 3px
+    .fill
+      absolute top 0 left -1px right -1px
+      border 0 solid $execution-color
+      border-left-width 1px
+      border-right-width 1px
+    .fragment-title
+      position relative
+      display inline-block
+      border 1px solid #666
+      padding 3px 10px 3px 6px
+      margin-left -1px
+      margin-top -1px
+      background $bg-color
+      span
+        font-size 0.9em
+      bevel(9px, #666, $bg-color)
+  .guard
+    position relative
+    z-index $z-comment
+    margin 0
+    padding 0 6px
+    border 0 solid #666
+    border-right-width 1px
+    border-left-width 1px
+    text-align left
+    span
+      font-size 0.9em
+    &.bordered
+      border-top 1px dashed #666
+  .fragment-end
+    position relative
+    z-index $z-fragment
+    margin 0
+    border 1px solid #666
+    border-top 0 none
+    height 6px
+  for num in 1 2 3 4 5
+    .fragment-depth--{num}
+      margin 0 (num * 3)px

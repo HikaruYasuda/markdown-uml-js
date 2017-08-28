@@ -505,7 +505,7 @@
       desc = desc[1];
 
       if (cap = this.rules.sd_message.exec(sig)) {
-        split = /(^<)?([-=\.])+(>$)?/.exec(cap[2]);
+        split = /(^<)?([-=.])+(>$)?/.exec(cap[2]);
         sig = {
           type: 'message',
           left: getActor(cap[1]),
@@ -518,16 +518,16 @@
           if (split[1]) sig.dir = 'left';
           else if (split[3]) sig.dir = 'right';
         }
-        sig.from = (sig.dir == 'left') ? sig.right : sig.left;
-        sig.to = (sig.dir == 'right') ? sig.right : sig.left;
+        sig.from = (sig.dir === 'left') ? sig.right : sig.left;
+        sig.to = (sig.dir === 'right') ? sig.right : sig.left;
         sig.starts = {};
         sig.ends = {};
         if (!runs[sig.from]) runs[sig.from] = sig.starts[sig.from] = true;
         if (cap[3] && !runs[sig.to]) runs[sig.to] = sig.starts[sig.to] = true;
         for (j = signals.length - 1; j >= 0; j--) {
-          if (signals[j].type == 'message') {
-            if (signals[j].dir != 'self'
-              && signals[j].to == sig.from) {
+          if (signals[j].type === 'message') {
+            if (signals[j].dir !== 'self'
+              && signals[j].to === sig.from) {
               delete sig.starts[sig.from];
               break;
             } else {
@@ -536,7 +536,7 @@
             }
           }
         }
-        if (sig.line == 'reply') {
+        if (sig.line === 'reply') {
           delete runs[sig.from];
           sig.ends[sig.from] = true;
         }
@@ -577,7 +577,7 @@
           split.push({
             type: 'fragment_end'
           });
-          if (fragments[j].name == cap[1]) {
+          if (fragments[j].name === cap[1]) {
             Array.prototype.push.apply(signals, split);
             fragments = fragments.slice(0, -split.length);
             split = null;
@@ -1136,7 +1136,7 @@
       return this._row(start, size, content, cols);
     },
     note: function(sig, body, cols) {
-      var start = sig.on * 2 + (sig.side == 'left' ? 0 : sig.side == 'over' ? 1 : 2)
+      var start = sig.on * 2 + (sig.side === 'left' ? 0 : sig.side === 'over' ? 1 : 2)
         , size = Math.max(sig.size * 2, 1)
         , align = ' align-' + sig.align
         , content = '<div class="note'+align+'">'+body+'</div>';
@@ -1163,12 +1163,12 @@
       var html = '<tr>', pipe, i = 0;
       do {
         pipe = (i&1) ? '' : 'class="pipe"';
-        if (i == start) {
+        if (i === start) {
           html += '<td colspan="'+size+'" '+pipe+'>'+body+'</td>';
         } else {
           html += '<td '+pipe+'></td>';
         }
-      } while ((i += (i == start ? size : 1)) < cols);
+      } while ((i += (i === start ? size : 1)) < cols);
       return html + '</tr>\n';
     }
   };
@@ -1405,7 +1405,7 @@
             id: getID(sig.name)
           });
           html += renderer.fragment_start(fragments[0], body, cols);
-          if (signals[i+1] && signals[i+1].type == 'guard') {
+          if (signals[i+1] && signals[i+1].type === 'guard') {
             continue;
           }
           break;

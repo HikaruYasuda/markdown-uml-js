@@ -1,4 +1,7 @@
 (function() {
+  require('./menu');
+  var marked = require('./marked-sequence');
+
   "use strict";
   $.event.fixHooks.drop = {props: ['dataTransfer']};
   $.fn.getRect = function() {
@@ -71,7 +74,7 @@
     }),
     setMarkdown = function(data, state) {
       $markdown.val(data || '').trigger('change');
-      if (typeof state == 'boolean') {
+      if (typeof state === 'boolean') {
         changed = state;
       }
       return this;
@@ -143,6 +146,10 @@
       config.set('v', viewMode(config.get('v', 0) + 1));
     })
     .add('Presentation', 'ex+P', function() {
+      var node = document.getElementById('workspace');
+      ['webkitRequestFullScreen', 'mozRequestFullScreen'].forEach(function(k) {
+        if (node[k]) node[k]();
+      });
     })
     .html()
   );
@@ -234,7 +241,7 @@
   function loadURL(url) {
     return $.ajax(url).then(function(data) {
       setMarkdown(data);
-      var fileName = decodeURIComponent(url.split(new RegExp('/','g')).pop().split(/[\?#]/)[0]);
+      var fileName = decodeURIComponent(url.split(/\//g).pop().split(/[?#]/)[0]);
       toastr.info(fileName, 'Loaded');
     }, function() {
       setMarkdown('failed\n'+url);
