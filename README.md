@@ -1,5 +1,10 @@
 # そうだ、MarkdownでUMLを書こう
 
+## Concept
+
+- マークダウン自体でも見やすく記述したい
+- プレビューを画像ファイルやCanvasなどの固定ではなくリキッドなHTMLで出力したい
+
 ## Hosting
 
 ```bash
@@ -10,20 +15,20 @@ $ npm run serve -- --port 8000
 
 ## Demo
 
-http://hikaruyasuda.github.io/markdown-uml-js/
+https://hikaruyasuda.github.io/markdown-uml-js/
 
-[README.md をDemoサイトで開く](http://hikaruyasuda.github.io/markdown-uml-js/?url=https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md)
+[README.md をDemoサイトで開く](https://hikaruyasuda.github.io/markdown-uml-js/?url=https://raw.githubusercontent.com/HikaruYasuda/markdown-uml-js/master/README.md)
 
 ### 起動オプション
 
-GETクエリで起動オプションを指定できます。
+To specify startup options with GET queries.
 
 key          |hint
 -------------|----
-`url=<url>`  |指定したURLのファイルを読み込みます
-`vh=<0 or 1>`|エディタとプレビューを`0`の場合横並びに、`1`の場合縦並びに配置します
-`editor`     |プレビューを隠してエディタだけを表示します
-`preview`    |エディタを隠してプレビューだけを表示します
+`url=<url>`  |Open the contents of the specified URL. 指定したURLのファイルを読み込みます
+`vh=<0 or 1>`|0 for horizontal, 1 for vertical. エディタとプレビューを`0`の場合横並びに、`1`の場合縦並びに配置します
+`editor`     |Show editor only. プレビューを隠してエディタだけを表示します
+`preview`    |Show preview only. エディタを隠してプレビューだけを表示します
 
 ## シーケンス図記法
 
@@ -114,3 +119,8 @@ opt [s, a]     : エラー
 /opt:
         a->d   : ユーザ情報更新(ユーザID,個人情報)
         a<.d   :
+
+
+## License
+
+MIT license
