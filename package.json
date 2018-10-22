@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/HikaruYasuda/markdown-uml-js#readme",
   "dependencies": {
-    "ecstatic": "^2.2.1",
     "generate-github-markdown-css": "^2.0.0",
     "highlight": "^0.2.4"
   },
   "devDependencies": {
+    "ecstatic": "^2.2.1",
     "nib": "^1.1.2",
     "stylus": "^0.54.5",
     "uglify-js": "^2.6.2",
