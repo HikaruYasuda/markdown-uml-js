@@ -9,7 +9,7 @@
     "watch:js": "npm run build:js -- --watch",
     "watch": "npm run watch:css & npm run watch:js",
     "build:css": "stylus -c -u nib src/stylus/style.styl -o lib/style.css",
-    "build:js": "webpack --optimize-minimize",
+    "build:js": "webpack-cli --optimize-minimize --mode=production",
     "build": "npm run build:css & npm run build:js",
     "serve": "ecstatic .",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,11 +29,12 @@
     "highlight": "^0.2.4"
   },
   "devDependencies": {
-    "ecstatic": "^2.2.1",
+    "ecstatic": "^3.3.0",
     "nib": "^1.1.2",
     "stylus": "^0.54.5",
-    "uglify-js": "^2.6.2",
-    "watch": "^0.18.0",
-    "webpack": "^3.5.5"
+    "uglify-js": "^3.4.9",
+    "watch": "^1.0.2",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
   }
 }
